@@ -1,26 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from 'react';
+import './App.css'
+import Sliders from "./Sliders";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+
+
+    render() {
+        return (
+            <div>
+                <Sliders step={0.2}>
+                    <div style={{background: '#c51434'}}>
+                        page1
+                    </div>
+                    <div style={{background: '#36c52d'}}>
+                        page2
+                    </div>
+                    <div style={{background: '#7268c5'}}>
+                        page3
+                    </div>
+                </Sliders>
+            </div>
+        );
+    }
+
+
 }
 
 export default App;
