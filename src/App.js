@@ -8,7 +8,7 @@ class App extends Component {
     render() {
         return (
             <div>
-                <Sliders step={0.2}>
+                <Sliders step={0.2} sliderY={true}>
                     <div style={{background: '#c51434'}}>
                         page1
                     </div>
