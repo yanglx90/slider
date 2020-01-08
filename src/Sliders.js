@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 class Sliders extends Component {
     constructor(props) {
@@ -7,7 +8,9 @@ class Sliders extends Component {
             sx: 0,
             sy: 0,
             currentPage: 0,
-            totalPage: this.props.children.length - 1
+            totalPage: this.props.children.length - 1,
+            w: 0,
+            h: 0
         }
     }
 
@@ -17,9 +20,10 @@ class Sliders extends Component {
         let touch = event.touches[0];
         this.init(touch);
         this.setState({
-            w: this.props.step ? touch.target.offsetWidth * this.props.step : touch.target.offsetWidth * 0.3,
-            h: this.props.step ? touch.target.offsetHeight * this.props.step : touch.target.offsetHeight * 0.3,
+            w: this.props.step ? event.view.innerWidth * this.props.step : event.view.innerWidth * 0.3,
+            h: this.props.step ? event.view.innerHeight * this.props.step : event.view.innerHeight * 0.3,
         })
+
     };
     //设置初始点击位置
     init = (touch) => {
@@ -51,13 +55,13 @@ class Sliders extends Component {
     move = (event) => {
         event.persist();
         let touch = event.touches[0];
-        if (touch.pageX - this.state.sx > this.state.w) {
+        if (!this.props.sliderY && touch.pageX - this.state.sx > this.state.w) {
             this.prevPage(touch);
-        } else if (touch.pageX - this.state.sx < -this.state.w) {
+        } else if (!this.props.sliderY && touch.pageX - this.state.sx < -this.state.w) {
             this.nextPage(touch)
-        } else if (touch.pageY - this.state.sy > this.state.h) {
+        } else if (this.props.sliderY && touch.pageY - this.state.sy > this.state.h) {
             this.prevPage(touch)
-        } else if (touch.pageY - this.state.sy < -this.state.h) {
+        } else if (this.props.sliderY && touch.pageY - this.state.sy < -this.state.h) {
             this.nextPage(touch)
         }
     };
@@ -75,12 +79,14 @@ class Sliders extends Component {
                     ...style,
                     display: 'block',
                     ...o.props.style
-                }
+                },
+                key: 'slider' + i
             }) : React.cloneElement(o, {
                 style: {
                     ...style,
                     display: "none"
-                }
+                },
+                key: 'slider' + i
             })
         );
         return (
@@ -91,4 +97,8 @@ class Sliders extends Component {
     }
 }
 
+Sliders.propTypes = {
+    sliderY: PropTypes.bool,
+    step: PropTypes.number
+};
 export default Sliders;
